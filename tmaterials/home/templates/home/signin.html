@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignIn</title>
+    <link href="{% static 'home.css'%}" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="background-radial-gradient overflow-hidden">
+      <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+        <div class="row gx-lg-5 align-items-center mb-5">
+          <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+            <h1
+              class="my-5 display-5 fw-bold ls-tight"
+              style="color: hsl(218, 81%, 95%)"
+            >
+              T -
+              <span style="color: hsl(218, 81%, 75%)">Material</span>
+            </h1>
+            <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+              🡆 A Portal with all the study Materials given by the Lecturer,
+              which are uploaded by GR/CR of your group.
+              <br />
+              🡆 If you dont have Your Id / Password You can contact GR of your
+              Group.
+            </p>
+          </div>
+
+          <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+            <div
+              id="radius-shape-1"
+              class="position-absolute rounded-circle shadow-5-strong"
+            ></div>
+            <div
+              id="radius-shape-2"
+              class="position-absolute shadow-5-strong"
+            ></div>
+
+            <div class="card bg-glass">
+              <div class="card-body px-4 py-5 px-md-5">
+                {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <!-- Email input -->
+                  <div class="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="form3Example3"
+                      class="form-control"
+                      name="email"
+                      for="email"
+                    />
+                    <label class="form-label" for="form3Example3"
+                      >Email address</label
+                    >
+                  </div>
+
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="form3Example4"
+                      class="form-control"
+                      name="pass1"
+                      for="password"
+                    />
+                    <label class="form-label" for="form3Example4"
+                      >Password</label
+                    >
+                  </div>
+
+                  <!-- Checkbox -->
+                  <div class="form-check d-flex justify-content-center mb-4">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      value=""
+                      id="form2Example33"
+                      checked
+                    />
+                    <label class="form-check-label" for="form2Example33">
+                      Remember Password
+                    </label>
+                  </div>
+
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">
+                    Sign in
+                  </button>
+                </form>
+                <div class="text-center">
+                  <p>Forgot Password ?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section: Design Block -->
+  </body>
+  <!-- MDB -->
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
+  ></script>
+</html>
