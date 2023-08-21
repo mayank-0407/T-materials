@@ -28,13 +28,13 @@
       <!-- Sidebar -->
       <nav
         id="sidebarMenu"
-        class="collapse d-lg-block sidebar collapse bg-white"
+        class="collapse d-lg-block sidebar bg-white container"
       >
         <div class="position-sticky">
           <div class="list-group list-group-flush mx-3 mt-4">
             <a
               href="#"
-              class="list-group-item list-group-item-action py-2 ripple active"
+              class="list-group-item list-group-item-action py-3 ripple active"
               aria-current="true"
             >
               <i class="fas fa-tachometer-alt fa-fw me-3"></i
@@ -42,11 +42,12 @@
             </a>
             <a
               href="#"
-              class="list-group-item list-group-item-action py-2 ripple"
+              class="list-group-item list-group-item-action py-3 ripple mt-2"
             >
               <i class="fas fa-chart-area fa-fw me-3"></i
               ><span>Webiste traffic</span>
             </a>
+            <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
       </nav>
@@ -59,6 +60,9 @@
       >
         <!-- Container wrapper -->
         <div class="container-fluid">
+          <div style="font-size: 20px" class="me-5">
+            {{ request.user.email }}
+          </div>
           <!-- Toggle button -->
           <button
             class="navbar-toggler"
@@ -71,9 +75,8 @@
           >
             <i class="fas fa-bars"></i>
           </button>
-
           <!-- Search form -->
-          <form
+          <!-- <form
             class="d-none d-md-flex align-items-center input-group w-auto my-auto mx-2"
           >
             <input
@@ -86,7 +89,7 @@
             <span class="input-group-text border-0"
               ><i class="fas fa-search"></i
             ></span>
-          </form>
+          </form> -->
 
           <!-- Right links -->
           <ul class="navbar-nav ms-auto d-flex flex-row">
@@ -133,15 +136,14 @@
               >
                 <img
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                  class="rounded-circle"
+                  class="rounded-circle me-2"
                   height="22"
                   alt="Avatar"
                   loading="lazy"
                 />
-                {{ request.user.email }}
               </a>
               <ul
-                class="dropdown-menu dropdown-menu-end"
+                class="dropdown-menu dropdown-menu-end mt-2"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
@@ -162,7 +164,46 @@
 
     <!--Main layout-->
     <main style="margin-top: 58px">
-      <div class="container pt-4"></div>
+      <div class="container pt-5">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control rounded ms-xl-5"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+          />
+          <button type="button" class="btn btn-outline-primary me-5">
+            search
+          </button>
+        </div>
+      </div>
+      <div style="margin-top: 19px" class="container">
+        <div class="row me-4 ms-4">
+          <div class="col-sm-6" style="margin-top: 19px">
+            <div class="card">
+              <button
+                type="button"
+                class="btn btn-secondary btn-lg col"
+                style="padding: 18px"
+              >
+                col1
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6" style="margin-top: 19px">
+            <div class="card">
+              <button
+                type="button"
+                class="btn btn-secondary btn-lg col"
+                style="padding: 18px"
+              >
+                col1
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
     <!--Main layout-->
   </body>
