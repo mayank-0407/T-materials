@@ -31,7 +31,6 @@ class Notification(models.Model):
     my_session=models.ForeignKey(Session,on_delete=models.SET_NULL,null=True)
     information=models.TextField()
     created_on=models.DateTimeField(default=datetime.datetime.now())
-    is_seen=models.BooleanField(default=False)
     
     # def save(self,*args,**kwars):
 

@@ -71,8 +71,10 @@ def main_dashboard(request):
     except:
         print('Not able t find data in home')
     all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
-    print(all_slides)
-    return render(request,"home/dashboard.html",context={'all_slides':all_slides})
+    
+    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+    return render(request,"home/dashboard.html",context={'all_slides':all_slides,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
 
 def gr_dashboard(request):
     try:
@@ -81,8 +83,10 @@ def gr_dashboard(request):
     except:
         print('Not able t find data in home')
     all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
-    print(all_slides)
-    return render(request,"home/gr/gr_dashboard.html",context={'all_slides':all_slides})
+    
+    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+    return render(request,"home/gr/gr_dashboard.html",context={'all_slides':all_slides,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
 
 def add_subject(request):
     if request.method=='POST':
@@ -123,3 +127,14 @@ def new_notification(request):
         print('Error while adding new slide')
     messages.error(request, 'New Notification Sent Successfully')
     return redirect('dashboard')
+
+def view_all_notifications(request):
+    try:
+        temp_user=User.objects.get(username=request.user.username)
+        main_user=Main_user.objects.get(user=temp_user)
+    except:
+        print('Not able t find data in home')
+    
+    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+    return render(request,"home/announcements.html",context={'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})

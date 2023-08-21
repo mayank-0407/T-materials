@@ -112,15 +112,17 @@
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <li>
-                  <a class="dropdown-item" href="#">Some news</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Another news</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
+              {% for all_notifications in all_notifications %}
+                
+                <button
+                  class="list-group-item list-group-item-action py-3 ripple mt-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#add_slides_modal"
+                >
+                  <i class="fas fa-chart-area fa-fw me-3"></i
+                  ><span>{{ all_notifications.information }}</span>
+                </button>
+              {% endfor %}
               </ul>
             </li>
 
