@@ -57,7 +57,6 @@ class Evaluation(models.Model):
     eval_room=models.TextField()
     eval_information=models.TextField()
     created_on=models.DateTimeField(default=datetime.datetime.now())
-    end_date = models.DateTimeField(null=True)
     
     def __str__(self):
         return str(self.my_session) + '-' + str(self.my_slide) + '-' + str(self.eval_type)

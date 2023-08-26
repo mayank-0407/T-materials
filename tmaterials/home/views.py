@@ -238,42 +238,93 @@ def view_all_evaluations(request):
         return render(request,"home/all_evaluations.html",context={'main_user':main_user,'all_evaluations':all_evaluations,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
     return redirect('home')
 
-def del_eval(request,id):
-    try:
-        this_evaluations=Evaluation.objects.get(pk=id)
-        this_evaluations.delete()
-        messages.error(request, 'Evaluation Details has been deleted Successfully')
+def edit_evaluations(request,id):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+            this_evaluations=Evaluation.objects.get(pk=id)
+        except:
+            print('Not able t find data in edit eval')
+        
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        return render(request,"home/edit_evaluations.html",context={'this_evaluations':this_evaluations,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def update_edit_evaluations(request):
+    if request.method == 'POST':
+        sub_id=request.POST.get('sub_id')
+        sub_name=request.POST.get('sub_name')
+        eval_type=request.POST.get('eval_type')
+        eval_room=request.POST.get('eval_room')
+        eval_information=request.POST.get('eval_information')
+        print(eval_information)
+        try:
+            my_evaluation=Evaluation.objects.get(pk=sub_id)
+            my_evaluation.sub_name=sub_name
+            my_evaluation.eval_type=eval_type
+            my_evaluation.eval_room=eval_room
+            my_evaluation.eval_information=eval_information
+            my_evaluation.save()
+        except:
+            messages.error(request, 'Internal Server Error - Unable to Find Evaluation !')
+            return redirect('view_all_evaluations')
+
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find update edit eval in home')
+
+        notification_detail='Updated Announced Subject ( '+ str(sub_name) +' ) Evaluation!!'
+        deadline_notification=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
+        deadline_notification.save()
+        messages.error(request, 'Updated Evaluation Details !')
         return redirect('view_all_evaluations')
-    except:
-        messages.error(request, 'Error while deleting Evaluation Details.')
-        return redirect('dashboard')
+    messages.error(request, 'Updatedion of Evaluation Details Unsuccessful !')
+    return redirect('view_all_evaluations')
+
+def del_eval(request,id):
+    if request.method == 'POST':
+        try:
+            this_evaluations=Evaluation.objects.get(pk=id)
+            this_evaluations.delete()
+            messages.error(request, 'Evaluation Details has been deleted Successfully')
+            return redirect('view_all_evaluations')
+        except:
+            messages.error(request, 'Error while deleting Evaluation Details.')
+            return redirect('dashboard')
     
 def del_deadline(request,id):
-    try:
-        this_deadl=Deadline.objects.get(pk=id)
-        this_deadl.delete()
-        messages.error(request, 'Deadline Details has been deleted Successfully')
-        return redirect('view_all_deadlines')
-    except:
-        messages.error(request, 'Error while deleting Deadline Details.')
-        return redirect('dashboard')
+    if request.method == 'POST':
+        try:
+            this_deadl=Deadline.objects.get(pk=id)
+            this_deadl.delete()
+            messages.error(request, 'Deadline Details has been deleted Successfully')
+            return redirect('view_all_deadlines')
+        except:
+            messages.error(request, 'Error while deleting Deadline Details.')
+            return redirect('dashboard')
 
 def del_noti(request,id):
-    try:
-        this_noti=Notification.objects.get(pk=id)
-        this_noti.delete()
-        messages.error(request, 'Notification Details has been deleted Successfully')
-        return redirect('view_all_notifications')
-    except:
-        messages.error(request, 'Error while deleting Notification Details.')
-        return redirect('dashboard')
+    if request.method == 'POST':
+        try:
+            this_noti=Notification.objects.get(pk=id)
+            this_noti.delete()
+            messages.error(request, 'Notification Details has been deleted Successfully')
+            return redirect('view_all_notifications')
+        except:
+            messages.error(request, 'Error while deleting Notification Details.')
+            return redirect('dashboard')
     
 def del_sub_session(request,id):
-    try:
-        this_slide=Slides.objects.get(pk=id)
-        this_slide.delete()
-        messages.error(request, 'The Subject Details has been deleted Successfully')
-        return redirect('dashboard')
-    except:
-        messages.error(request, 'Error while deleting Subject Details.')
-        return redirect('dashboard')
+    if request.method == 'POST':
+        try:
+            this_slide=Slides.objects.get(pk=id)
+            this_slide.delete()
+            messages.error(request, 'The Subject Details has been deleted Successfully')
+            return redirect('dashboard')
+        except:
+            messages.error(request, 'Error while deleting Subject Details.')
+            return redirect('dashboard')

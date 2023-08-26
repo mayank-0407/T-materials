@@ -19,4 +19,6 @@ urlpatterns = [
     path('dashboard/add/eval/',views.add_evaluation,name="add_evaluation"),
     path('dashboard/view/eval/',views.view_all_evaluations,name="view_all_evaluations"),
     path('dashboard/view/eval/del/<int:id>/', views.del_eval, name='del_eval'),
+    path('dashboard/view/eval/edit/<int:id>/',views.edit_evaluations,name="edit_evaluations"),
+    path('dashboard/view/eval/edit/update/',views.update_edit_evaluations,name="update_edit_evaluations"),
 ]
