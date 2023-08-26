@@ -115,7 +115,7 @@ def add_subject(request):
         my_slide=Slides.objects.create(my_session=main_user.my_session,sub_name=subject_name,code=sub_code,link=drive_link)
         my_slide.save()
 
-        messages.error(request, 'Subject Added Successfully')
+        messages.success(request, 'Subject Added Successfully')
         return redirect('dashboard')
     
 def new_notification(request):
@@ -133,7 +133,7 @@ def new_notification(request):
             my_slide.save()
         except:
             print('Error while adding new slide')
-        messages.error(request, 'New Notification Sent Successfully')
+        messages.success(request, 'New Notification Sent Successfully')
         return redirect('dashboard')
 
 def view_all_notifications(request):
@@ -173,7 +173,7 @@ def add_deadline(request):
             deadline_notification.save()
         except:
             print('Error while adding new slide')
-        messages.error(request, 'New Notification Sent Successfully')
+        messages.success(request, 'New Notification Sent Successfully')
         return redirect('dashboard')
 
 def view_all_deadlines(request):
@@ -221,7 +221,7 @@ def add_evaluation(request):
             deadline_notification.save()
         except:
             print('Error while adding new eval')
-        messages.error(request, 'New Evaluation added Successfully')
+        messages.success(request, 'New Evaluation added Successfully')
         return redirect('dashboard')
 
 def view_all_evaluations(request):
@@ -281,54 +281,50 @@ def update_edit_evaluations(request):
         notification_detail='Updated Announced Subject ( '+ str(sub_name) +' ) Evaluation!!'
         deadline_notification=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
         deadline_notification.save()
-        messages.error(request, 'Updated Evaluation Details !')
+        messages.success(request, 'Updated Evaluation Details !')
         return redirect('view_all_evaluations')
     messages.error(request, 'Updatedion of Evaluation Details Unsuccessful !')
     return redirect('view_all_evaluations')
 
 def del_eval(request,id):
-    if request.method == 'POST':
-        try:
-            this_evaluations=Evaluation.objects.get(pk=id)
-            this_evaluations.delete()
-            messages.error(request, 'Evaluation Details has been deleted Successfully')
-            return redirect('view_all_evaluations')
-        except:
-            messages.error(request, 'Error while deleting Evaluation Details.')
-            return redirect('dashboard')
+    try:
+        this_evaluations=Evaluation.objects.get(pk=id)
+        this_evaluations.delete()
+        messages.success(request, 'Evaluation Details has been deleted Successfully')
+        return redirect('view_all_evaluations')
+    except:
+        messages.error(request, 'Error while deleting Evaluation Details.')
+        return redirect('dashboard')
     
 def del_deadline(request,id):
-    if request.method == 'POST':
-        try:
-            this_deadl=Deadline.objects.get(pk=id)
-            this_deadl.delete()
-            messages.error(request, 'Deadline Details has been deleted Successfully')
-            return redirect('view_all_deadlines')
-        except:
-            messages.error(request, 'Error while deleting Deadline Details.')
-            return redirect('dashboard')
+    try:
+        this_deadl=Deadline.objects.get(pk=id)
+        this_deadl.delete()
+        messages.success(request, 'Deadline Details has been deleted Successfully')
+        return redirect('view_all_deadlines')
+    except:
+        messages.error(request, 'Error while deleting Deadline Details.')
+        return redirect('dashboard')
 
 def del_noti(request,id):
-    if request.method == 'POST':
-        try:
-            this_noti=Notification.objects.get(pk=id)
-            this_noti.delete()
-            messages.error(request, 'Notification Details has been deleted Successfully')
-            return redirect('view_all_notifications')
-        except:
-            messages.error(request, 'Error while deleting Notification Details.')
-            return redirect('dashboard')
+    try:
+        this_noti=Notification.objects.get(pk=id)
+        this_noti.delete()
+        messages.success(request, 'Notification Details has been deleted Successfully')
+        return redirect('view_all_notifications')
+    except:
+        messages.error(request, 'Error while deleting Notification Details.')
+        return redirect('dashboard')
     
 def del_sub_session(request,id):
-    if request.method == 'POST':
-        try:
-            this_slide=Slides.objects.get(pk=id)
-            this_slide.delete()
-            messages.error(request, 'The Subject Details has been deleted Successfully')
-            return redirect('dashboard')
-        except:
-            messages.error(request, 'Error while deleting Subject Details.')
-            return redirect('dashboard')
+    try:
+        this_slide=Slides.objects.get(pk=id)
+        this_slide.delete()
+        messages.success(request, 'The Subject Details has been deleted Successfully')
+        return redirect('dashboard')
+    except:
+        messages.error(request, 'Error while deleting Subject Details.')
+        return redirect('dashboard')
         
 def view_all_students(request):
     if request.user.is_authenticated:
@@ -358,7 +354,7 @@ def add_student(request):
         try:
             verify_user=User.objects.get(email=email)    
             if verify_user:
-                messages.error(request, 'Entered Email is already registered !')
+                messages.success(request, 'Entered Email is already registered !')
                 return redirect('dashboard')
         except:
             pass
@@ -376,7 +372,7 @@ def add_student(request):
         except Exception as e:
             User.objects.get(id=myuser.id).delete()
             return HttpResponse(str(e))
-        messages.error(request, 'Student Added Successfully.')
+        messages.success(request, 'Student Added Successfully.')
         return redirect('view_all_students')
     
 def student_upload(request):
@@ -471,5 +467,5 @@ def student_uploader(request,rfile):
         messages.error(request,'System was not able to create account for these Students :-'+str(Error_while_generating_student))
         return redirect('dashboard')
     else:
-        messages.error(request, 'Success - Students Added Successfully')
+        messages.success(request, 'Success - Students Added Successfully')
         return redirect('dashboard')

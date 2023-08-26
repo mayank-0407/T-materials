@@ -178,6 +178,23 @@
             search
           </button>
         </div>
+        <!-- message error alert -->
+        {% if messages %} {% for message in messages %}
+        <div
+          class="alert alert-secondary alert-dismissible fade show ms-5 me-5"
+          role="alert"
+        >
+          <strong {% if message.tags %}>{{ message.tags }} {% endif %}</strong>
+          - {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %}
+        <!-- end of message error -->
       </div>
       <div style="margin-top: 19px" class="container">
         <div class="row me-4 ms-4">
