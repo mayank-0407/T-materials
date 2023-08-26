@@ -53,14 +53,13 @@
             >
               <i class="fas fa-bullhorn fa-fw me-3"></i
               ><span> Announcements </span>
-              </a>
+            </a>
             <a
               href="{% url 'view_all_deadlines' %}"
               class="list-group-item list-group-item-action py-3 ripple"
               aria-current="true"
             >
-              <i class="fas fa-calendar fa-fw me-3"></i
-              ><span> Deadlines </span>
+              <i class="fas fa-calendar fa-fw me-3"></i><span> Deadlines </span>
             </a>
             <a
               href="{% url 'view_all_evaluations' %}"
@@ -69,7 +68,15 @@
             >
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Evaluations </span>
-              </a>
+            </a>
+            <a
+              href="{% url 'view_all_students' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Students </span>
+            </a>
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -119,8 +126,8 @@
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-              {% for all_notifications in all_notifications %}
-                
+                {% for all_notifications in all_notifications %}
+
                 <button
                   class="list-group-item list-group-item-action py-3 ripple mt-2"
                   data-bs-toggle="modal"
@@ -129,7 +136,7 @@
                   <i class="fas fa-bullhorn fa-fw me-3"></i
                   ><span>{{ all_notifications.information }}</span>
                 </button>
-              {% endfor %}
+                {% endfor %}
               </ul>
             </li>
 
@@ -187,7 +194,7 @@
           </button>
         </div>
       </div>
-      
+
       <!-- all notification -->
       <div style="margin-top: 38px" class="container">
         {% for all_notifications in all_notifications %}
@@ -195,20 +202,25 @@
           <div class="row g-0">
             <div class="card-body">
               {% if main_user.is_cr == 1 %}
-                <div class="text-end">
-                  <button type="button" class="btn btn-outline-primary"><a href="./del/{{ all_notifications.id }}">X</a>
-                  </button>
-                </div>
-              {% endif %}
-                <p class="card-text">{{all_notifications.information}}</p>
-                <p class="card-text" style="text-align: end;"><small class="text-muted">{{all_notifications.created_on}}</small></p>
+              <div class="text-end">
+                <button type="button" class="btn btn-outline-primary">
+                  <a href="./del/{{ all_notifications.id }}">X</a>
+                </button>
               </div>
+              {% endif %}
+              <p class="card-text">{{all_notifications.information}}</p>
+              <p class="card-text" style="text-align: end">
+                <small class="text-muted"
+                  >{{all_notifications.created_on}}</small
+                >
+              </p>
+            </div>
           </div>
         </div>
         {% endfor %}
       </div>
     </main>
-<!--Main layout-->
+    <!--Main layout-->
   </body>
   <!-- MDB -->
   <script

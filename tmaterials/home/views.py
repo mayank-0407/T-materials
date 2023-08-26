@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime, timedelta
+import pandas as pd
 
 def temp(request):
     return render(request,"home/temp.html",context={})
@@ -36,7 +37,7 @@ def home(request):
         try:
             verify_user=User.objects.get(email=email)    
         except:
-            messages.error(request, 'Entered Email is ot registered !')
+            messages.error(request, 'Entered Email is not registered !')
             return redirect('home')
         
         try:
@@ -328,3 +329,147 @@ def del_sub_session(request,id):
         except:
             messages.error(request, 'Error while deleting Subject Details.')
             return redirect('dashboard')
+        
+def view_all_students(request):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+
+        all_students=Main_user.objects.filter(my_session=main_user.my_session).all()
+        return render(request,"home/all_students.html",context={'all_students':all_students,'main_user':main_user,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def add_student(request):
+    if request.method == 'POST':
+        first_name=request.POST.get('first_name')
+        Last_name=request.POST.get('Last_name')
+        stu_roll=request.POST.get('stu_roll')
+        temp_email=request.POST.get('email')
+        pass1=request.POST.get('pass1')
+        
+        email=temp_email.lower()
+            
+        try:
+            verify_user=User.objects.get(email=email)    
+            if verify_user:
+                messages.error(request, 'Entered Email is already registered !')
+                return redirect('dashboard')
+        except:
+            pass
+        myuser=User.objects.create_user(username=email,email=email,first_name=first_name,last_name=Last_name)
+        myuser.set_password(pass1)
+        myuser.save()
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in Add Student dashboard')
+        try:
+            Main_user.objects.create(user=myuser, roll_no=stu_roll,
+                                my_session=main_user.my_session)
+        except Exception as e:
+            User.objects.get(id=myuser.id).delete()
+            return HttpResponse(str(e))
+        messages.error(request, 'Student Added Successfully.')
+        return redirect('view_all_students')
+    
+def student_upload(request):
+    if request.user.is_superuser:
+        logout(request)
+        messages.error(request, 'Error - Super user Dont have Access.')
+        return redirect('home')
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            try:
+                file=request.FILES.get('file')
+                try:
+                    if str(file).endswith('.csv'):
+                        rfile=pd.read_csv(file)
+                    elif str(file).endswith('.xlsx'):
+                        rfile=pd.read_excel(file)
+                    else:
+                        messages.error(request, 'Error - File Format not valid')
+                        return redirect('dashboard')
+                    
+                    return student_uploader(request,rfile)
+                    
+                except:
+                    messages.error(request, 'Error - File not valid')
+                    return redirect('dashboard')
+            except:
+                messages.error(request, 'Error - cant read the file')
+                return redirect('dashboard')
+        
+    else:    
+        return redirect("signin")
+    
+def student_uploader(request,rfile):
+    # mycompany=Company.objects.get(user=request.user)
+
+    if 'Email' not in rfile.columns:
+        messages.error(request, 'Please add an "Email" column in your file and try uploading again!!')
+        return redirect('dashboard')
+    
+    invalid_email=[]
+    Error_while_generating_student=[]
+    Error_while_generating_student_flag=False
+    invalid_email_flag=False
+    
+    for i in range(len(rfile['Email'])):
+        
+        email = rfile["Email"][i]
+        fname = rfile["FirstName"][i]
+        lname = rfile["LastName"][i]
+        rollno = rfile["RollNo"][i]
+        
+        try:
+            User.objects.get(email=email)
+            invalid_email.append(email)
+            invalid_email_flag=True
+            continue
+        except:
+            pass
+        
+        email.lower()
+        newuser=User.objects.create_user(first_name=fname,last_name=lname,
+                                        email=email, username=email)
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in Add Student dashboard')
+        pass1 = 'qwerty@'+str(main_user.my_session)
+        newuser.set_password(pass1)
+        newuser.save()
+        
+        try:
+            Main_user.objects.create(user=newuser,my_session=main_user.my_session,roll_no=rollno)
+        except Exception as e:
+            User.objects.get(id=newuser.id).delete()
+            Error_while_generating_student.append(i+1)
+            Error_while_generating_student_flag=True
+        
+        # try:
+        #     email_message='Account Creation By GR'
+        #     email_subject='Your Account at T-materials has been created successfully.'+'Email : '+ email + 'Temporary Password : ' + pass1
+        #     SENDMAIL(email_message,email_subject,email)
+        # except:
+        #     continue
+    if invalid_email_flag ==True and Error_while_generating_student_flag==True:
+        messages.error(request,'Accounts Already exisits for these emails:-'+str(invalid_email)+'System was not able to create account for these Students :-'+str(Error_while_generating_student))
+        return redirect('dashboard')
+    elif invalid_email_flag==True:
+        messages.error(request, 'Accounts Already exisits for these emails:-'+str(invalid_email))
+        return redirect('dashboard')
+    elif Error_while_generating_student_flag==True:
+        messages.error(request,'System was not able to create account for these Students :-'+str(Error_while_generating_student))
+        return redirect('dashboard')
+    else:
+        messages.error(request, 'Success - Students Added Successfully')
+        return redirect('dashboard')

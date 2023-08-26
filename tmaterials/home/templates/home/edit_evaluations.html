@@ -53,23 +53,30 @@
             >
               <i class="fas fa-bullhorn fa-fw me-3"></i
               ><span> Announcements </span>
-              </a>
-              <a
+            </a>
+            <a
               href="{% url 'view_all_deadlines' %}"
               class="list-group-item list-group-item-action py-3 ripple"
               aria-current="true"
             >
-              <i class="fas fa-calendar fa-fw me-3"></i
-              ><span> Deadlines </span>
-              </a>
-              <a
+              <i class="fas fa-calendar fa-fw me-3"></i><span> Deadlines </span>
+            </a>
+            <a
               href="{% url 'view_all_evaluations' %}"
               class="list-group-item list-group-item-action py-3 ripple active"
               aria-current="true"
             >
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Evaluations </span>
-              </a>
+            </a>
+            <a
+              href="{% url 'view_all_students' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Students </span>
+            </a>
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -119,8 +126,8 @@
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-              {% for all_notifications in all_notifications %}
-                
+                {% for all_notifications in all_notifications %}
+
                 <button
                   class="list-group-item list-group-item-action py-3 ripple mt-2"
                   data-bs-toggle="modal"
@@ -129,7 +136,7 @@
                   <i class="fas fa-bullhorn fa-fw me-3"></i
                   ><span>{{ all_notifications.information }}</span>
                 </button>
-              {% endfor %}
+                {% endfor %}
               </ul>
             </li>
 
@@ -187,40 +194,85 @@
           </button>
         </div>
       </div>
-      
+
       <!-- all notification -->
       <div style="margin-top: 38px" class="container col-6 align-items-center">
-        
-        <form action="{% url 'update_edit_evaluations' %}" method="POST" enctype="multipart/form-data">
+        <form
+          action="{% url 'update_edit_evaluations' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
           {% csrf_token %}
           <!-- Text input -->
-          <label class="form-label" for="form6Example3">Evaluation Subject</label>
-          <input type="text" id="form6Example3" name="sub_id" for="sub_id" value="{{ this_evaluations.pk }}" class="form-control" hidden/>
+          <label class="form-label" for="form6Example3"
+            >Evaluation Subject</label
+          >
+          <input
+            type="text"
+            id="form6Example3"
+            name="sub_id"
+            for="sub_id"
+            value="{{ this_evaluations.pk }}"
+            class="form-control"
+            hidden
+          />
 
           <div class="form-outline mb-4">
-            <input type="text" id="form6Example3" name="sub_name" for="sub_name" value="{{ this_evaluations.sub_name }}" class="form-control" />
+            <input
+              type="text"
+              id="form6Example3"
+              name="sub_name"
+              for="sub_name"
+              value="{{ this_evaluations.sub_name }}"
+              class="form-control"
+            />
           </div>
-        
+
           <!-- Text input -->
           <label class="form-label" for="form6Example4">Evaluation Type</label>
           <div class="form-outline mb-4">
-            <input type="text" id="form6Example4" name="eval_type" for="eval_type" value="{{ this_evaluations.eval_type }}" class="form-control" />
+            <input
+              type="text"
+              id="form6Example4"
+              name="eval_type"
+              for="eval_type"
+              value="{{ this_evaluations.eval_type }}"
+              class="form-control"
+            />
           </div>
-        
+
           <!-- Email input -->
           <label class="form-label" for="form6Example5">Evaluation Room</label>
           <div class="form-outline mb-4">
-            <input type="text" id="form6Example5" name="eval_room" for="eval_room" value="{{ this_evaluations.eval_room }}" class="form-control" />
+            <input
+              type="text"
+              id="form6Example5"
+              name="eval_room"
+              for="eval_room"
+              value="{{ this_evaluations.eval_room }}"
+              class="form-control"
+            />
           </div>
-        
+
           <!-- Message input -->
-          <label class="form-label" for="form6Example7">Evaluation information</label>
+          <label class="form-label" for="form6Example7"
+            >Evaluation information</label
+          >
           <div class="form-outline mb-4">
-            <textarea class="form-control" name="eval_information" for="eval_information" value="{{ this_evaluations.eval_information }}" id="form6Example7" rows="4"></textarea>
+            <textarea
+              class="form-control"
+              name="eval_information"
+              for="eval_information"
+              value="{{ this_evaluations.eval_information }}"
+              id="form6Example7"
+              rows="4"
+            ></textarea>
           </div>
-        
+
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-block mb-4">Confirm Edit</button>
+          <button type="submit" class="btn btn-primary btn-block mb-4">
+            Confirm Edit
+          </button>
         </form>
       </div>
     </main>
@@ -246,5 +298,5 @@
     integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
     crossorigin="anonymous"
   ></script>
-  <script src="{% static 'edit_evalu.js' %}"></script> 
+  <script src="{% static 'edit_evalu.js' %}"></script>
 </html>

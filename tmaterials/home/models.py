@@ -12,6 +12,7 @@ class Session(models.Model):
 class Main_user(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     my_session=models.ForeignKey(Session,on_delete=models.CASCADE,null=True,blank=True)
+    roll_no=models.TextField()
     is_gr=models.BooleanField(default=False)
     is_cr=models.BooleanField(default=False)
 

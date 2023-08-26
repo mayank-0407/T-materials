@@ -70,6 +70,14 @@
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Evaluations </span>
               </a>
+              <a
+              href="{% url 'view_all_students' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Students </span>
+              </a>
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -189,8 +197,13 @@
       </div>
       
       <!-- all notification -->
-      <div style="margin-top: 38px" class="container">
+      <div style="margin-top: 28px" class="container">
         {% for all_deadline in all_deadline %}
+        {% if main_user.is_cr == 1 %}
+          <div class="text-end ">
+            <button class="btn btn-outline-primary"><a href="./del/{{ all_deadline.id }}">X</a></button>
+          </div>
+        {% endif %}
         <div class="card mb-3">
           <div class="row g-0">
             <div class="card-header">
@@ -198,12 +211,6 @@
                 <p class="text-muted">Subject : {{all_deadline.sub_name}} ({{all_deadline.code}})
                 </p>
               </p>
-              {% if main_user.is_cr == 1 %}
-                <div class="text-end">
-                  <button class="btn btn-outline-primary">Edit</button>
-                  <button class="btn btn-outline-primary"><a href="./del/{{ all_deadline.id }}">Delete</a></button>
-                </div>
-              {% endif %}
             </div>          
             <div class="card-body">
               

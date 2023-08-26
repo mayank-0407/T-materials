@@ -42,7 +42,7 @@
           <div class="list-group list-group-flush mx-3 mt-4">
             <a
               href="{% url 'dashboard' %}"
-              class="list-group-item list-group-item-action py-3 ripple active"
+              class="list-group-item list-group-item-action py-2 ripple active"
               aria-current="true"
             >
               <i class="fas fa-tachometer-alt fa-fw me-3"></i
@@ -50,7 +50,7 @@
             </a>
             <a
               href="{% url 'view_all_notifications' %}"
-              class="list-group-item list-group-item-action py-3 ripple"
+              class="list-group-item list-group-item-action py-2 ripple"
               aria-current="true"
             >
               <i class="fas fa-bullhorn fa-fw me-3"></i
@@ -58,7 +58,7 @@
               </a>
             <a
               href="{% url 'view_all_deadlines' %}"
-              class="list-group-item list-group-item-action py-3 ripple"
+              class="list-group-item list-group-item-action py-2 ripple"
               aria-current="true"
             >
               <i class="fas fa-calendar fa-fw me-3"></i
@@ -67,24 +67,51 @@
             
               <a
               href="{% url 'view_all_evaluations' %}"
-              class="list-group-item list-group-item-action py-3 ripple"
+              class="list-group-item list-group-item-action py-2 ripple"
               aria-current="true"
             >
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Evaluations </span>
               </a>
 
+              <a
+              href="{% url 'view_all_students' %}"
+              class="list-group-item list-group-item-action py-2 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Students </span>
+              </a>
+
             <button
-              class="list-group-item list-group-item-action py-3 ripple mt-2"
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
               data-bs-toggle="modal"
               data-bs-target="#add_slides_modal"
             >
               <i class="fas fa-book fa-fw me-3"></i
               ><span> Add Slides</span>
             </button>
+
+            <button
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
+              data-bs-toggle="modal"
+              data-bs-target="#add_student_modal"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Add Students</span>
+            </button>
             
             <button
-              class="list-group-item list-group-item-action py-3 ripple mt-2"
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
+              data-bs-toggle="modal"
+              data-bs-target="#upload_employee_modal"
+            >
+              <i class="fas fa-star-half fa-fw me-3"></i
+              ><span> Upload Students</span>
+            </button>
+
+            <button
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
               data-bs-toggle="modal"
               data-bs-target="#add_notification_modal"
             >
@@ -93,7 +120,7 @@
             </button>
 
             <button
-              class="list-group-item list-group-item-action py-3 ripple mt-2"
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
               data-bs-toggle="modal"
               data-bs-target="#add_deadline_modal"
             >
@@ -102,13 +129,14 @@
             </button>
 
             <button
-              class="list-group-item list-group-item-action py-3 ripple mt-2"
+              class="list-group-item list-group-item-action py-2 ripple mt-2"
               data-bs-toggle="modal"
               data-bs-target="#add_evaluation_modal"
             >
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Add Evaluation</span>
             </button>
+            
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -227,15 +255,15 @@
           </button>
         </div>
       </div>
-      <div style="margin-top: 19px" class="container">
+      <div style="margin-top: 2px" class="container">
         <div class="row me-4 ms-4">
           {% for all_slides in all_slides %}
           <div class="col-sm-6" style="margin-top: 19px">
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-primary"><a href="./sub/del/{{ all_slides.id }}">X</a>
+              </button>
+            </div>
             <div class="card">
-              <div class="text-end">
-                <button type="button" class="btn btn-outline-primary"><a href="./sub/del/{{ all_slides.id }}">X</a>
-                </button>
-              </div>
               <button
                 type="button"
                 class="btn btn-secondary btn-lg col"
@@ -488,6 +516,101 @@
       </div>
     </div>
     </div>
+    <!--Main layout-->
+    <!--Add Students Modal-->
+    <div
+      class="modal fade"
+      id="add_student_modal"
+      tabindex="-1"
+      aria-labelledby="add_student_modal_label"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'add_student' %}" class="row g-3" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" for="first_name" id="inputEmail4">
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="Last_name" for="Last_name" id="inputPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" for="email" id="inputAddress" placeholder="">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">Roll Number</label>
+                <input type="text" class="form-control" name="stu_roll" for="stu_roll" id="inputAddress" placeholder="">
+              </div>
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pass1" for="pass1" id="inputEmail4">
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="pass2" for="pass2" id="inputPassword4">
+              </div>
+              <div class="modal-footer">
+              <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              >
+              Close
+              </button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- upload_employee_modal -->
+    <div class="modal fade" id="upload_employee_modal" tabindex="-1" aria-labelledby="upload_employee_modal_label" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h2 class="modal-title fs-3" id="exampleModalLabel">Add Students</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>
+                  <h6>Read carefully before uploading Information</h6>
+                  <li>File format must be .csv or .xlsx</li>
+                  <li>Compulsory Columns are Email, First Name, Last Name and Roll No ID.</li>
+                  <li>You can shuffle the the columns but interchanging data of 1 column with other is not accepted.</li>
+                  <li>
+                      See the format of uploading as attached header column must be same.
+                      <a href="{% static 'studentDemo.xlsx' %}" download="Demo"> Download format</a>
+                  </li>
+              </p>
+              <form action="{% url 'student_upload' %}" method="POST" enctype="multipart/form-data" onsubmit="call_preloader1()">
+                  {% csrf_token %}
+                  <input type="file" name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="input-field" required>
+                  
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
     <!--Main layout-->
   </body>
   <!-- MDB -->

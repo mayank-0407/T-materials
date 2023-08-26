@@ -70,6 +70,14 @@
               <i class="fas fa-star-half fa-fw me-3"></i
               ><span> Evaluations </span>
               </a>
+              <a
+              href="{% url 'view_all_students' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-person-dots-from-line fa-fw me-3"></i
+              ><span> Students </span>
+              </a>
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -159,7 +167,7 @@
                   <a class="dropdown-item" href="#">Change Password</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Logout</a>
+                  <a class="dropdown-item" href="{% url 'request_logout' %}">Logout</a>
                 </li>
               </ul>
             </li>
@@ -191,6 +199,15 @@
       <!-- all notification -->
       <div style="margin-top: 38px" class="container">
         {% for all_evaluations in all_evaluations %}
+        {% if main_user.is_cr == 1 %}
+          <div class="text-end">
+            <button class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#edit_eval_modal"
+                    ><a href="./edit/{{ all_evaluations.id }}">Edit</a></button>
+            <button class="btn btn-outline-primary"><a href="./del/{{ all_evaluations.id }}">X</a></button>
+          </div>
+        {% endif %}
         <div class="card mb-3">
           <div class="row g-0">
             <div class="card-header">
@@ -198,15 +215,6 @@
                 <p class="text-muted">Subject : {{all_evaluations.sub_name}} ({{all_evaluations.code}})
                 </p>
               </p>
-              {% if main_user.is_cr == 1 %}
-                <div class="text-end">
-                  <button class="btn btn-outline-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#edit_eval_modal"
-                          ><a href="./edit/{{ all_evaluations.id }}">Edit</a></button>
-                  <button class="btn btn-outline-primary"><a href="./del/{{ all_evaluations.id }}">Delete</a></button>
-                </div>
-              {% endif %}
             </div>
           
             <div class="card-body">
