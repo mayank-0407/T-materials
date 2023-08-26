@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SignIn</title>
+    <link rel="icon" href="{% static 'logo.png' %}" type="image/icon type" />
     <link href="{% static 'home.css'%}" rel="stylesheet" />
     <!-- Font Awesome -->
     <link
@@ -56,8 +57,19 @@
             <div class="card bg-glass">
               <div class="card-body px-4 py-5 px-md-5">
                 {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
+                <li
+                  {%
+                  if
+                  message.tags
+                  %}
+                  class="{{ message.tags }}"
+                  {%
+                  endif
+                  %}
+                >
+                  {{ message }}
+                </li>
+                {% endfor %}
                 <form action="" method="POST" enctype="multipart/form-data">
                   {% csrf_token %}
                   <!-- Email input -->
