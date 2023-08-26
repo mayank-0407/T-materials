@@ -33,7 +33,7 @@
         <div class="position-sticky">
           <div class="list-group list-group-flush mx-3 mt-4">
             <a
-              href="#"
+              href="{% url 'dashboard' %}"
               class="list-group-item list-group-item-action py-3 ripple active"
               aria-current="true"
             >
@@ -41,12 +41,30 @@
               ><span>Dashboard</span>
             </a>
             <a
-              href="#"
-              class="list-group-item list-group-item-action py-3 ripple mt-2"
+              href="{% url 'view_all_notifications' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>Webiste traffic</span>
-            </a>
+              <i class="fas fa-bullhorn fa-fw me-3"></i
+              ><span> Announcements </span>
+              </a>
+            <a
+              href="{% url 'view_all_deadlines' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-calendar fa-fw me-3"></i
+              ><span> Deadlines </span>
+              </a>
+            
+              <a
+              href="{% url 'view_all_evaluations' %}"
+              class="list-group-item list-group-item-action py-3 ripple"
+              aria-current="true"
+            >
+              <i class="fas fa-star-half fa-fw me-3"></i
+              ><span> Evaluations </span>
+              </a>
             <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
@@ -75,21 +93,6 @@
           >
             <i class="fas fa-bars"></i>
           </button>
-          <!-- Search form -->
-          <!-- <form
-            class="d-none d-md-flex align-items-center input-group w-auto my-auto mx-2"
-          >
-            <input
-              autocomplete="off"
-              type="search"
-              class="form-control rounded"
-              placeholder="Search by Name or Code of Course"
-              style="min-width: 525px"
-            />
-            <span class="input-group-text border-0"
-              ><i class="fas fa-search"></i
-            ></span>
-          </form> -->
 
           <!-- Right links -->
           <ul class="navbar-nav ms-auto d-flex flex-row">

@@ -146,7 +146,7 @@ def view_all_notifications(request):
         all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
         all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
         # all_notifications.reverse()
-        return render(request,"home/announcements.html",context={'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+        return render(request,"home/announcements.html",context={'all_notifications':all_notifications,'all_notifications_count':all_notifications_count,'main_user':main_user})
     return redirect('home')
 
 def add_deadline(request):
@@ -188,7 +188,7 @@ def view_all_deadlines(request):
         all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
         all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
 
-        return render(request,"home/all_deadlines.html",context={'all_deadline':all_deadlline,'all_subj':all_subj,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+        return render(request,"home/all_deadlines.html",context={'main_user':main_user,'all_deadline':all_deadlline,'all_subj':all_subj,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
     return redirect('home')
 
 def add_evaluation(request):
@@ -235,7 +235,7 @@ def view_all_evaluations(request):
         all_evaluations=Evaluation.objects.filter(my_session=main_user.my_session).all()
         all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
         all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
-        return render(request,"home/all_evaluations.html",context={'all_evaluations':all_evaluations,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+        return render(request,"home/all_evaluations.html",context={'main_user':main_user,'all_evaluations':all_evaluations,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
     return redirect('home')
 
 def del_eval(request,id):
@@ -263,7 +263,17 @@ def del_noti(request,id):
         this_noti=Notification.objects.get(pk=id)
         this_noti.delete()
         messages.error(request, 'Notification Details has been deleted Successfully')
-        return redirect('view_all_deadlines')
+        return redirect('view_all_notifications')
     except:
         messages.error(request, 'Error while deleting Notification Details.')
+        return redirect('dashboard')
+    
+def del_sub_session(request,id):
+    try:
+        this_slide=Slides.objects.get(pk=id)
+        this_slide.delete()
+        messages.error(request, 'The Subject Details has been deleted Successfully')
+        return redirect('dashboard')
+    except:
+        messages.error(request, 'Error while deleting Subject Details.')
         return redirect('dashboard')

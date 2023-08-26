@@ -8,6 +8,7 @@ urlpatterns = [
     path('',views.home,name="home"),
     path('logout/',views.request_logout,name="request_logout"),
     path('dashboard/',views.dashboard,name="dashboard"),
+    path('dashboard/sub/del/<int:id>/',views.del_sub_session,name="del_sub_session"),
     path('dashboard/addsubject/',views.add_subject,name="add_subject"),
     path('dashboard/new/notification/',views.new_notification,name="new_noti"),
     path('dashboard/view/notifications/',views.view_all_notifications,name="view_all_notifications"),

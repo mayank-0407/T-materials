@@ -198,10 +198,12 @@
                 <p class="text-muted">Subject : {{all_deadline.sub_name}} ({{all_deadline.code}})
                 </p>
               </p>
-              <div class="text-end">
-                <button class="btn btn-outline-primary">Edit</button>
-                <button class="btn btn-outline-primary"><a href="./del/{{ all_deadline.id }}">Delete</a></button>
-              </div>
+              {% if main_user.is_cr == 1 %}
+                <div class="text-end">
+                  <button class="btn btn-outline-primary">Edit</button>
+                  <button class="btn btn-outline-primary"><a href="./del/{{ all_deadline.id }}">Delete</a></button>
+                </div>
+              {% endif %}
             </div>          
             <div class="card-body">
               

@@ -193,7 +193,13 @@
         {% for all_notifications in all_notifications %}
         <div class="card mb-3">
           <div class="row g-0">
-              <div class="card-body">
+            <div class="card-body">
+              {% if main_user.is_cr == 1 %}
+                <div class="text-end">
+                  <button type="button" class="btn btn-outline-primary"><a href="./del/{{ all_notifications.id }}">X</a>
+                  </button>
+                </div>
+              {% endif %}
                 <p class="card-text">{{all_notifications.information}}</p>
                 <p class="card-text" style="text-align: end;"><small class="text-muted">{{all_notifications.created_on}}</small></p>
               </div>
