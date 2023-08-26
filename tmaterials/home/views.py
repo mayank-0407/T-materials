@@ -6,6 +6,7 @@ from django.contrib.auth import login,logout
 from django.contrib import messages
 from django.conf import settings
 from django.http import JsonResponse
+from datetime import datetime, timedelta
 
 def temp(request):
     return render(request,"home/temp.html",context={})
@@ -55,38 +56,44 @@ def home(request):
     return render(request,"home/signin.html",context={})
 
 def dashboard(request):
-    try:
-        temp_user=User.objects.get(username=request.user.username)
-        main_user=Main_user.objects.get(user=temp_user)
-    except:
-        print('Not able t find data in home')
-    if main_user.is_cr:
-        return gr_dashboard(request)
-    return main_dashboard(request)
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        if main_user.is_cr:
+            return gr_dashboard(request)
+        return main_dashboard(request)
+    return redirect('home')
 
 def main_dashboard(request):
-    try:
-        temp_user=User.objects.get(username=request.user.username)
-        main_user=Main_user.objects.get(user=temp_user)
-    except:
-        print('Not able t find data in home')
-    all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
+        
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        return render(request,"home/dashboard.html",context={'all_slides':all_slides,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
     
-    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
-    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
-    return render(request,"home/dashboard.html",context={'all_slides':all_slides,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
-
 def gr_dashboard(request):
-    try:
-        temp_user=User.objects.get(username=request.user.username)
-        main_user=Main_user.objects.get(user=temp_user)
-    except:
-        print('Not able t find data in home')
-    all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
-    
-    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
-    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
-    return render(request,"home/gr/gr_dashboard.html",context={'all_slides':all_slides,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        all_slides=Slides.objects.filter(my_session=main_user.my_session).all()
+        all_subj=Slides.objects.filter(my_session=main_user.my_session).all()
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        return render(request,"home/gr/gr_dashboard.html",context={'all_slides':all_slides,'all_subj':all_subj,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
 
 def add_subject(request):
     if request.method=='POST':
@@ -114,27 +121,149 @@ def new_notification(request):
     if request.method=='POST':
         notification_detail=request.POST.get('noti_details')
 
-    try:
-        temp_user=User.objects.get(username=request.user.username)
-        main_user=Main_user.objects.get(user=temp_user)
-    except:
-        print('Not able t find data in notification')
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in notification')
 
-    try:
-        my_slide=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
-        my_slide.save()
-    except:
-        print('Error while adding new slide')
-    messages.error(request, 'New Notification Sent Successfully')
-    return redirect('dashboard')
+        try:
+            my_slide=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
+            my_slide.save()
+        except:
+            print('Error while adding new slide')
+        messages.error(request, 'New Notification Sent Successfully')
+        return redirect('dashboard')
 
 def view_all_notifications(request):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        # all_notifications.reverse()
+        return render(request,"home/announcements.html",context={'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def add_deadline(request):
+    if request.method=='POST':
+        sub_name=request.POST.get('sub_name')
+        # sub_code=request.POST.get('sub_code')
+        deadline_info=request.POST.get('deadline_info')
+
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+            my_sub_slide=Slides.objects.get(pk=sub_name)
+        except:
+            print('Not able t find data in notification')
+
+        try:
+            my_deadline=Deadline.objects.create(my_session=main_user.my_session,my_slide=my_sub_slide,
+                                                sub_name=my_sub_slide.sub_name,code=my_sub_slide.code,
+                                                information=deadline_info)
+            my_deadline.save()
+            notification_detail='New Deadline Added !!'
+            deadline_notification=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
+            deadline_notification.save()
+        except:
+            print('Error while adding new slide')
+        messages.error(request, 'New Notification Sent Successfully')
+        return redirect('dashboard')
+
+def view_all_deadlines(request):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in home')
+        
+        all_deadlline=Deadline.objects.filter(my_session=main_user.my_session).all()
+        all_subj=Slides.objects.filter(my_session=main_user.my_session).all()
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+
+        return render(request,"home/all_deadlines.html",context={'all_deadline':all_deadlline,'all_subj':all_subj,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def add_evaluation(request):
+    if request.method=='POST':
+        sub_name=request.POST.get('sub_name')
+        # sub_code=request.POST.get('sub_code')
+        eval_type=request.POST.get('eval_type')
+        eval_room=request.POST.get('eval_room')
+        end_date=str(request.POST.get('end_date'))
+        eval_information=request.POST.get('eval_information')
+
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+            my_sub_slide=Slides.objects.get(pk=sub_name)
+        except:
+            print('Not able t find data in notification')
+
+        now = datetime.now()
+        time=now.time()
+
+        try:
+            my_evaluation=Evaluation.objects.create(my_session=main_user.my_session,sub_name=my_sub_slide.sub_name,code=my_sub_slide.code,
+                                                    my_slide=my_sub_slide,eval_type=eval_type,
+                                                    eval_room=eval_room,eval_information=eval_information)
+            my_evaluation.save()
+            notification_detail='New Subject Evaluation Announced!!'
+            deadline_notification=Notification.objects.create(my_session=main_user.my_session,information=notification_detail)
+            deadline_notification.save()
+        except:
+            print('Error while adding new eval')
+        messages.error(request, 'New Evaluation added Successfully')
+        return redirect('dashboard')
+
+def view_all_evaluations(request):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+            my_subj=Slides.objects.filter(my_session=main_user.my_session).all()
+        except:
+            print('Not able t find data in home')
+        
+        all_evaluations=Evaluation.objects.filter(my_session=main_user.my_session).all()
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        return render(request,"home/all_evaluations.html",context={'all_evaluations':all_evaluations,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def del_eval(request,id):
     try:
-        temp_user=User.objects.get(username=request.user.username)
-        main_user=Main_user.objects.get(user=temp_user)
+        this_evaluations=Evaluation.objects.get(pk=id)
+        this_evaluations.delete()
+        messages.error(request, 'Evaluation Details has been deleted Successfully')
+        return redirect('view_all_evaluations')
     except:
-        print('Not able t find data in home')
+        messages.error(request, 'Error while deleting Evaluation Details.')
+        return redirect('dashboard')
     
-    all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
-    all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
-    return render(request,"home/announcements.html",context={'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+def del_deadline(request,id):
+    try:
+        this_deadl=Deadline.objects.get(pk=id)
+        this_deadl.delete()
+        messages.error(request, 'Deadline Details has been deleted Successfully')
+        return redirect('view_all_deadlines')
+    except:
+        messages.error(request, 'Error while deleting Deadline Details.')
+        return redirect('dashboard')
+
+def del_noti(request,id):
+    try:
+        this_noti=Notification.objects.get(pk=id)
+        this_noti.delete()
+        messages.error(request, 'Notification Details has been deleted Successfully')
+        return redirect('view_all_deadlines')
+    except:
+        messages.error(request, 'Error while deleting Notification Details.')
+        return redirect('dashboard')
