@@ -85,7 +85,8 @@
                   {{ message }}
                 </li>
                 {% endfor %}
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" onsubmit ="return validate_passwords()" enctype="multipart/form-data">
+                  <h5 style="color: red; font-size:16px" id="passcheckerror"></h5>
                   {% csrf_token %}
                   <!-- Email input -->
                   <div class="row">
@@ -132,7 +133,7 @@
                   <div class="form-outline mb-4">
                     <input
                       type="password"
-                      id="form3Example4"
+                      id="pass1"
                       class="form-control"
                       name="pass1"
                       for="pass1"
@@ -144,7 +145,7 @@
                   <div class="form-outline mb-4">
                     <input
                       type="password"
-                      id="form3Example4"
+                      id="pass2"
                       class="form-control"
                       name="pass2"
                       for="pass2"
@@ -185,5 +186,8 @@
   <script
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
-  ></script>
+    ></script>
+    <script 
+      src="{% static 'check_pass.js' %}"
+    ></script>
 </html>

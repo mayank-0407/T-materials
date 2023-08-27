@@ -5,33 +5,40 @@ function editeval(id,eval_type,eval_room,eval_information){
     document.getElementById("eval_information").value = eval_information;
     document.getElementById("eval_sub").value = id;
 }
-// function sendReqToServer(statuss, zone ,monitorCount,id){
 
-    
-//     serializedData={'statuss' : statuss, 'desk_id':id,'zone' : zone, 'monitorCount' : monitorCount};
-//     console.log(serializedData);
-    
+function validate_change_passwords() {
+    password1 = document.getElementById("pass1").value;
+    password2 = document.getElementById("pass2").value;
+    old_password = document.getElementById("old_pass").value;
+    if (password1 != password2) {
+        passcheckerror.innerHTML = "Both the passwords are diferent";
+        return false;
+    } else {
+        var val = passwordchecker(password1);
+        var old_val = passwordchecker(old_password);
+        if (!old_val) {
+            passcheckerror.innerHTML =
+                "Old Password is not having 8 characters with digits, letters and special characters";
+            return false;
+        }
+        else if (!val) {
+            passcheckerror.innerHTML =
+                "New Password must have atleast 8 characters with digits, letters and special characters";
+            return false;
+        }
+        return true;
+    }
+}
 
-//     $.ajax({
-//         type: 'GET',
-//         url: "./submit",
-//         data: serializedData,
-//         success: function (response) {
-//             console.log("Desk has been updated.")
-//             location.reload()
-//         },
-//         error: function (response) {
-//             location.reload()
-//             alert(response["responseJSON"]["error"]);
-//         }
-//     })
-// }
 
-// submit_edit.addEventListener('click', ()=>{
-
-//     statuss=document.getElementById('status_id').value;
-//     console.log(statuss)
-//     zone=document.getElementById('zone_id').value;
-//     monitorCount=document.getElementById('deskcount_id').value;
-//     sendReqToServer(statuss, zone ,monitorCount,main_id);
-// })
+function passwordchecker(str) {
+    if (
+        (str.match(/[a-z]/g) || str.match(/[A-Z]/g)) &&
+        str.match(/[0-9]/g) &&
+        str.match(/[^a-zA-Z\d]/g) &&
+        str.length >= 8
+    )
+        return true;
+    return false;
+}
+  

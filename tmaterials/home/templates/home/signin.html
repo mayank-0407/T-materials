@@ -42,14 +42,16 @@
               🡆 If you dont have Your Id / Password You can contact GR of your
               Group.
               <br />
-              🡆 If you are GR of your Group and you Group is not Registered with us, Than you can 
-              <a href="{% url 'signup_request' %}">Signup</a> here.(But make Sure your Group is not Registered with us).
+              🡆 If you are GR of your Group and you Group is not Registered with
+              us, Than you can
+              <a href="{% url 'signup_request' %}">Signup</a> here.(But make
+              Sure your Group is not Registered with us).
               <br />
-              🡆 If you are New GR of you Group than you can ask old GR to transfer GR Access to you from Students Section.
+              🡆 If you are New GR of you Group than you can ask old GR to
+              transfer GR Access to you from Students Section.
               <br />
-              🡆 Our Website provides the feature of viewing Deadlines , Evaluations Details , Notifications on Website and 
-              emails.
-
+              🡆 Our Website provides the feature of viewing Deadlines ,
+              Evaluations Details , Notifications on Website and emails.
             </p>
           </div>
 
@@ -79,7 +81,16 @@
                   {{ message }}
                 </li>
                 {% endfor %}
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form
+                  action=""
+                  method="POST"
+                  onsubmit="return validate_password_letters()"
+                  enctype="multipart/form-data"
+                >
+                <h5
+                  style="color: red; font-size: 16px"
+                  id="passcheckerror"
+                ></h5>
                   {% csrf_token %}
                   <!-- Email input -->
                   <div class="form-outline mb-4">
@@ -99,7 +110,7 @@
                   <div class="form-outline mb-4">
                     <input
                       type="password"
-                      id="form3Example4"
+                      id="pass1"
                       class="form-control"
                       name="pass1"
                       for="password"
@@ -141,4 +152,5 @@
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
   ></script>
+  <script src="{% static 'check_pass.js' %}"></script>
 </html>

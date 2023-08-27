@@ -272,14 +272,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="{% url 'change_profile_pass' %}" method="POST" enctype="multipart/form-data">
+          <form action="{% url 'change_profile_pass' %}" method="POST" onsubmit ="return validate_change_passwords()" enctype="multipart/form-data">
             {% csrf_token %}
+            <h5 style="color: red; font-size:16px" id="passcheckerror"></h5>
             <div class="row mb-3">
               <label for="inputEmail3" class="col-sm-5 col-form-label"
                 >Old Password</label
               >
               <div class="col-sm-6">
-                <input type="password" class="form-control" id="inputEmail3" for="change_pass_old" name="change_pass_old" />
+                <input type="password" class="form-control" id="old_pass" for="change_pass_old" name="change_pass_old" />
               </div>
             </div>
             <div class="row mb-3">
@@ -287,7 +288,7 @@
               >New Password</label
               >
               <div class="col-sm-6">
-                <input type="password" class="form-control" id="inputEmail3" for="change_pass_new" name="change_pass_new" />
+                <input type="password" class="form-control" id="pass1" for="change_pass_new" name="change_pass_new" />
               </div>
             </div>
             <div class="row mb-3">
@@ -295,7 +296,7 @@
               >Confirm New Password</label
               >
               <div class="col-sm-6">
-                <input type="password" class="form-control" id="inputEmail3" for="change_pass_new1" name="change_pass_new1" />
+                <input type="password" class="form-control" id="pass2" for="change_pass_new1" name="change_pass_new1" />
               </div>
             </div>
             <div class="modal-footer">
@@ -334,4 +335,5 @@
     crossorigin="anonymous"
   ></script>
   <script src="{% static 'edit_evalu.js' %}"></script>
+  
 </html>
