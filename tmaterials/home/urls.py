@@ -12,6 +12,7 @@ urlpatterns = [
     path('dashboard/profile/',views.edit_profilepage,name="edit_profilepage"),
     path('dashboard/profile/change/pass',views.change_profile_pass,name="change_profile_pass"),
     path('dashboard/view/students/',views.view_all_students,name="view_all_students"),
+    path('dashboard/view/students/del/<int:id>/',views.del_student_gr,name="del_student_gr"),
     path('dashboard/view/students/transfer/',views.transfer_gr_student,name="transfer_gr_student"),
     path('dashboard/add/students/',views.add_student,name="add_student"),
     path('dashboard/upload/students/',views.student_upload,name="student_upload"),

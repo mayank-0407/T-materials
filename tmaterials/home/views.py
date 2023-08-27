@@ -8,6 +8,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 import pandas as pd
+from django.core.mail import send_mail
 
 def temp(request):
     return render(request,"home/edit_profile.html",context={})
@@ -16,6 +17,14 @@ def redirect_admin(request):
     url="http://127.0.0.1:8000/admin"
     response=redirect(url)
     return response
+
+def SENDMAIL(subject, message, email):
+    try:
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = email
+        send_mail( subject, message, email_from, recipient_list )
+    except:
+        return HttpResponse('Unable to send Email')
 
 def request_logout(request):
     if request.user.is_authenticated:
@@ -183,6 +192,25 @@ def new_notification(request):
             my_slide.save()
         except:
             print('Error while adding new slide')
+        # send notification to email
+        try:
+            temp_user=User.objects.get(email=request.user.email)
+            main_user=Main_user.objects.get(user=temp_user)
+            all_main_user=Main_user.objects.filter(my_session=main_user.my_session)
+            email=[]
+            for eachuser in all_main_user:
+                email.append(eachuser.user.email)
+        except:
+            messages.error(request, 'Not able to fetch Email data for notification')
+            return redirect('dashboard')
+
+        try:
+            email_subject='no reply! New Notification From T-Materials'
+            SENDMAIL(email_subject,notification_detail,email)
+        except:
+            messages.error(request, 'Not able to Send Email of notification')
+            return redirect('dashboard')
+
         messages.success(request, 'New Notification Sent Successfully')
         return redirect('dashboard')
 
@@ -375,6 +403,19 @@ def del_sub_session(request,id):
     except:
         messages.error(request, 'Error while deleting Subject Details.')
         return redirect('dashboard')
+    
+def del_student_gr(request,id):
+    try:
+        my_main_user=Main_user.objects.get(pk=id)
+        my_user=User.objects.get(email=my_main_user.user.email)
+
+        my_main_user.delete()
+        my_user.delete()
+        messages.success(request, 'The Student Details has been deleted Successfully')
+        return redirect('view_all_students')
+    except:
+        messages.error(request, 'Error while deleting Student Details.')
+        return redirect('view_all_students')
         
 def view_all_students(request):
     if request.user.is_authenticated:
