@@ -6,9 +6,9 @@ T-Materials is an innovative web application designed to ease the work of Studen
 # How T-Material looks like:
 ![image](https://github.com/mayank-0407/T-materials/assets/97796657/1bdd8eb1-5647-4e03-b7df-ae7999403ad7)
 
-![image](https://github.com/mayank-0407/T-materials/assets/97796657/230b8298-57e4-4cc6-aa1a-574f2c293b3d)
+![signup](https://github.com/mayank-0407/T-materials/assets/97796657/d61bdb39-dc9b-4714-b837-5cbebce7db2e)
 
-![image](https://github.com/mayank-0407/T-materials/assets/97796657/ccade2ce-8508-4b22-9cb4-3182463db43d)
+![Signin](https://github.com/mayank-0407/T-materials/assets/97796657/a24e261a-3a72-41d5-bfb6-10b6eea7f515)
 
 
 # Key Features:
