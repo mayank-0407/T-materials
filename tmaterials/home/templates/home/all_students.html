@@ -228,7 +228,8 @@
                 <th>Group</th>
                 <th>Position</th>
                 {% if main_user.is_cr %}
-                <th>Actions</th>
+                <th>Delete User</th>
+                <th>Transfer GR</th>
                 {% endif %}
               </tr>
             </thead>
@@ -275,6 +276,15 @@
                     <a href="./del/{{ all_students.id }}">Delete</a>
                   </button>
                 </td>
+                <td>
+                  <button type="button" 
+                    class="btn btn-link btn-sm btn-rounded"
+                    aria-current="true"
+                    data-bs-toggle="modal"
+                    data-bs-target="#transfer_gr"
+                  ><span> Transfer </span>
+                  </button>  
+                </td>
                 {% endif %}
               </tr>
               {% endfor %}
@@ -285,6 +295,55 @@
     </main>
     <!--Main layout-->
   </body>
+  <div
+      class="modal fade"
+      id="transfer_gr"
+      tabindex="-1"
+      aria-labelledby="transfer_gr_label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change GR</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'transfer_gr_student' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="transfer_email" for="transfer_email">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Roll Number</label>
+                <input type="text" class="form-control" name="transfer_rollno" for="transfer_rollno">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Type <b>"CONFIRM TRANSFER"</b> GR to confirm transfer.</label>
+                <input type="text" class="form-control" name="transfer_text" for="transfer_text" id="transfer_text">
+              </div>
+            </div>
+          <div class="modal-footer">
+            <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
   <!-- MDB -->
   <script
     type="text/javascript"

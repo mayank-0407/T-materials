@@ -387,7 +387,7 @@ def view_all_students(request):
         all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
         all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
 
-        all_students=Main_user.objects.filter(my_session=main_user.my_session).all()
+        all_students=Main_user.objects.filter(my_session=main_user.my_session).all().order_by('roll_no')
         return render(request,"home/all_students.html",context={'all_students':all_students,'main_user':main_user,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
     return redirect('home')
 
@@ -414,6 +414,7 @@ def add_student(request):
         try:
             temp_user=User.objects.get(username=request.user.username)
             main_user=Main_user.objects.get(user=temp_user)
+            main_user_rollno=Main_user.objects.get(roll_no=stu_roll)
         except:
             print('Not able t find data in Add Student dashboard')
         try:
@@ -488,6 +489,7 @@ def student_uploader(request,rfile):
         try:
             temp_user=User.objects.get(username=request.user.username)
             main_user=Main_user.objects.get(user=temp_user)
+            main_user_rollno=Main_user.objects.get(roll_no=rollno)
         except:
             print('Not able t find data in Add Student dashboard')
         pass1 = 'qwerty@'+str(main_user.my_session)
@@ -571,3 +573,45 @@ def change_profile_pass(request):
 
         return redirect('dashboard')
     return redirect('home')
+
+def transfer_gr_student(request):
+    if request.method == 'POST':
+        temp_email= request.POST.get('transfer_email')
+        roll_no= request.POST.get('transfer_rollno')
+
+        email=temp_email.lower()
+        try:
+            temp_user_email=User.objects.get(email=email)
+            main_user_email=Main_user.objects.get(user=temp_user_email)
+        except:
+            messages.error(request, 'Entered Email Not Found in Database !')
+            return redirect('view_all_students')
+        
+        try:
+            this_temp_user_email=User.objects.get(email=request.user.email)
+            this_main_user_email=Main_user.objects.get(user=this_temp_user_email)
+        except:
+            messages.error(request, 'Unable to fetch data of you ID, Try again !')
+            return redirect('view_all_students')
+        
+        try:
+            temp_user_rollno=Main_user.objects.get(roll_no=roll_no)
+        except:
+            messages.error(request, 'Entered Roll Number Not Found in Database !')
+            return redirect('view_all_students')
+        
+        if not temp_user_rollno.roll_no == main_user_email.roll_no :
+            messages.error(request, 'Entered Roll Number and Email are not of the same Student !')
+            return redirect('view_all_students')
+
+        
+        main_user_email.is_cr=True
+        main_user_email.save()
+
+        this_main_user_email.is_cr=False
+        this_main_user_email.save()
+        logout(request)
+
+        messages.success(request, 'Now GR you your Group! and new GR is '+str(temp_email)+' Now you can login with the same id')
+        return redirect('home')
+    return redirect('view_all_students')
