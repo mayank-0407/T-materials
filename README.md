@@ -1,7 +1,7 @@
-Welcome to T-Materials, your one-stop solution for solving the problem of sending every slide on WhatsApp ,  managing them at one place. Whether you are GR or Student this website makes your work very easy , T-Materials is the perfect platform to bridge the gap between Students and GR/teacher.
+Welcome to T-Materials, your one-stop solution for solving the problem of sending every slide on WhatsApp ,  managing them at one place. Whether you are GR or Student this website makes your work very easy , T-Materials is the perfect platform to bridge the gap between Students and GR/professors.
 
 # Overview:
-Web-I is an innovative web application designed to streamline the internship recruitment process. With a user-friendly interface and powerful search functionality, it connects students, graduates, and young professionals with a diverse range of internships across various industries.
+T-Materials is an innovative web application designed to ease the work of Students . With a user-friendly interface and powerful search functionality, it connects students, and GR/professors .
 
 # How T-Material looks like:
 ![image](https://github.com/mayank-0407/T-materials/assets/97796657/1bdd8eb1-5647-4e03-b7df-ae7999403ad7)
