@@ -56,6 +56,56 @@ def home(request):
             return redirect('home')
     return render(request,"home/signin.html",context={})
 
+def signup_req(request):
+    if request.method == 'POST':
+        first_name=request.POST.get('first_name')
+        last_name=request.POST.get('last_name')
+        roll_no=request.POST.get('rollno')
+        this_group=request.POST.get('group')
+        temp_email=request.POST.get('email')
+        pass1=request.POST.get('pass1')
+        
+        email=temp_email.lower()
+            
+        try:
+            verify_user=User.objects.get(email=email)    
+            messages.error(request, 'Entered Email is Already registered !')
+            return redirect('home')
+        except:
+            pass
+
+        try:
+            my_group=Session.objects.get(group=this_group)    
+            messages.error(request, 'Entered Group is Already Registered !')
+            return redirect('signup_request')
+        except:
+            try:
+                my_newsession=Session.objects.create(group=this_group)
+            except:
+                messages.error(request, 'Internal Error While Creating Session, you can signup again !')
+                return redirect('signup_request')
+        
+        try:
+            myuser=User.objects.create_user(username=email,email=email,
+                                            first_name=first_name,last_name=last_name)
+            myuser.set_password(pass1)
+            myuser.save()
+        except:
+            User.objects.get(id=myuser.id).delete()
+            messages.error(request, 'Internal Error While Setting up the password, you can signup again !')
+            return redirect('signup_request')
+        
+        try:
+            my_mainuser=Main_user.objects.create(user=myuser,my_session=my_newsession,roll_no=roll_no,is_cr=True)
+        except Exception as e:
+            User.objects.get(id=myuser.id).delete()
+            messages.error(request, 'Internal Error While Creating Account, '+ str(e) +' you can signup again !')
+            return redirect('signup_request')
+        messages.success(request, 'Account Created Successfully you can SignIn Now !')
+        return redirect('home')
+        
+    return render(request,"home/signup.html",context={})
+
 def dashboard(request):
     if request.user.is_authenticated:
         try:

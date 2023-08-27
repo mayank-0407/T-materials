@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SignIn</title>
+    <title>SignUp</title>
     <link rel="icon" href="{% static 'logo.png' %}" type="image/icon type" />
     <link href="{% static 'home.css'%}" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -37,19 +37,25 @@
             </h1>
             <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
               🡆 A Portal with all the study Materials given by the Lecturer,
-              which are uploaded by GR/CR of your group.
+              which are uploaded by you (GR) for your group.
               <br />
-              🡆 If you dont have Your Id / Password You can contact GR of your
-              Group.
+              🡆 If you are Student, Than you can <a href="{% url 'home' %}">SignIn</a> here.
               <br />
-              🡆 If you are GR of your Group and you Group is not Registered with us, Than you can 
-              <a href="{% url 'signup_request' %}">Signup</a> here.(But make Sure your Group is not Registered with us).
+              🡆 If you dont Don't have Signed Up yet then you can signup now.
               <br />
-              🡆 If you are New GR of you Group than you can ask old GR to transfer GR Access to you from Students Section.
+              🡆 If you are GR of your Group and you Group is Registered with us, Than you can 
+              <a href="{% url 'home' %}">SignIn</a> here.
               <br />
-              🡆 Our Website provides the feature of viewing Deadlines , Evaluations Details , Notifications on Website and 
-              emails.
-
+              🡆 As New GR of your Group you can ask old GR to transfer GR Access to you from Students Section.
+              <br />
+              🡆 As GR of your Group Your Duty is to add The material on Gdrive and add that link to 
+              our website.
+              <br />
+              🡆 As GR of your Group you can Add Notification that floats to all the students on their email.
+              <br />
+              🡆 As GR of your Group you can Add Students either with xlsx or csv file, or you can add student 1 by 1.
+              <br />
+              🡆 As GR of your Group you can Add Deadlines and Evaluation Details.
             </p>
           </div>
 
@@ -82,6 +88,34 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                   {% csrf_token %}
                   <!-- Email input -->
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="text" name="first_name" for="first_name" id="form3Example1" class="form-control" />
+                        <label class="form-label">First name</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="text" name="last_name" for="last_name" id="form3Example2" class="form-control" />
+                        <label class="form-label">Last name</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="text"  name="rollno" for="rollno" id="form3Example1" class="form-control" />
+                        <label class="form-label">Roll Number</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="text" name="group" for="group" id="form3Example2" class="form-control" />
+                        <label class="form-label">Group</label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="form-outline mb-4">
                     <input
                       type="email"
@@ -91,8 +125,7 @@
                       for="email"
                     />
                     <label class="form-label" for="form3Example3"
-                      >Email address</label
-                    >
+                      >Email address</label>
                   </div>
 
                   <!-- Password input -->
@@ -102,10 +135,22 @@
                       id="form3Example4"
                       class="form-control"
                       name="pass1"
-                      for="password"
+                      for="pass1"
                     />
                     <label class="form-label" for="form3Example4"
                       >Password</label
+                    >
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="form3Example4"
+                      class="form-control"
+                      name="pass2"
+                      for="pass2"
+                    />
+                    <label class="form-label" for="form3Example4"
+                      >Confirm Password</label
                     >
                   </div>
 
@@ -125,7 +170,7 @@
 
                   <!-- Submit button -->
                   <button type="submit" class="btn btn-primary btn-block mb-4">
-                    Sign in
+                    Sign Up
                   </button>
                 </form>
               </div>
