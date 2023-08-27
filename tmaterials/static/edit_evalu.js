@@ -10,6 +10,14 @@ function validate_change_passwords() {
     password1 = document.getElementById("pass1").value;
     password2 = document.getElementById("pass2").value;
     old_password = document.getElementById("old_pass").value;
+    this_email = document.getElementById("this_email").value;
+  
+    var n = this_email.includes('@thapar.edu');
+    if (!n) {
+        document.getElementById("passcheckerror").innerHTML = "Email entered is not associated with Thapar";
+        return false;
+    }
+
     if (password1 != password2) {
         passcheckerror.innerHTML = "Both the passwords are diferent";
         return false;
@@ -30,6 +38,16 @@ function validate_change_passwords() {
     }
 }
 
+function validate_email(){
+    this_email = document.getElementById("this_email").value;
+  
+    var n = this_email.includes('@thapar.edu');
+    if (!n) {
+        document.getElementById("passcheckerror").innerHTML = "Email entered is not associated with Thapar";
+        return false;
+    }
+    return true;
+}
 
 function passwordchecker(str) {
     if (

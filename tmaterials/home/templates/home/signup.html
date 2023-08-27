@@ -39,23 +39,29 @@
               🡆 A Portal with all the study Materials given by the Lecturer,
               which are uploaded by you (GR) for your group.
               <br />
-              🡆 If you are Student, Than you can <a href="{% url 'home' %}">SignIn</a> here.
+              🡆 If you are Student, Than you can
+              <a href="{% url 'home' %}">SignIn</a> here.
               <br />
               🡆 If you dont Don't have Signed Up yet then you can signup now.
               <br />
-              🡆 If you are GR of your Group and you Group is Registered with us, Than you can 
+              🡆 If you are GR of your Group and you Group is Registered with us,
+              Than you can
               <a href="{% url 'home' %}">SignIn</a> here.
               <br />
-              🡆 As New GR of your Group you can ask old GR to transfer GR Access to you from Students Section.
+              🡆 As New GR of your Group you can ask old GR to transfer GR Access
+              to you from Students Section.
               <br />
-              🡆 As GR of your Group Your Duty is to add The material on Gdrive and add that link to 
-              our website.
+              🡆 As GR of your Group Your Duty is to add The material on Gdrive
+              and add that link to our website.
               <br />
-              🡆 As GR of your Group you can Add Notification that floats to all the students on their email.
+              🡆 As GR of your Group you can Add Notification that floats to all
+              the students on their email.
               <br />
-              🡆 As GR of your Group you can Add Students either with xlsx or csv file, or you can add student 1 by 1.
+              🡆 As GR of your Group you can Add Students either with xlsx or csv
+              file, or you can add student 1 by 1.
               <br />
-              🡆 As GR of your Group you can Add Deadlines and Evaluation Details.
+              🡆 As GR of your Group you can Add Deadlines and Evaluation
+              Details.
             </p>
           </div>
 
@@ -85,20 +91,40 @@
                   {{ message }}
                 </li>
                 {% endfor %}
-                <form action="" method="POST" onsubmit ="return validate_passwords()" enctype="multipart/form-data">
-                  <h5 style="color: red; font-size:16px" id="passcheckerror"></h5>
+                <form
+                  action=""
+                  method="POST"
+                  onsubmit="return validate_passwords()"
+                  enctype="multipart/form-data"
+                >
+                  <h5
+                    style="color: red; font-size: 16px"
+                    id="passcheckerror"
+                  ></h5>
                   {% csrf_token %}
                   <!-- Email input -->
                   <div class="row">
                     <div class="col-md-6 mb-4">
                       <div class="form-outline">
-                        <input type="text" name="first_name" for="first_name" id="form3Example1" class="form-control" />
+                        <input
+                          type="text"
+                          name="first_name"
+                          for="first_name"
+                          id="form3Example1"
+                          class="form-control"
+                        />
                         <label class="form-label">First name</label>
                       </div>
                     </div>
                     <div class="col-md-6 mb-4">
                       <div class="form-outline">
-                        <input type="text" name="last_name" for="last_name" id="form3Example2" class="form-control" />
+                        <input
+                          type="text"
+                          name="last_name"
+                          for="last_name"
+                          id="form3Example2"
+                          class="form-control"
+                        />
                         <label class="form-label">Last name</label>
                       </div>
                     </div>
@@ -106,13 +132,25 @@
                   <div class="row">
                     <div class="col-md-6 mb-4">
                       <div class="form-outline">
-                        <input type="text"  name="rollno" for="rollno" id="form3Example1" class="form-control" />
+                        <input
+                          type="text"
+                          name="rollno"
+                          for="rollno"
+                          id="form3Example1"
+                          class="form-control"
+                        />
                         <label class="form-label">Roll Number</label>
                       </div>
                     </div>
                     <div class="col-md-6 mb-4">
                       <div class="form-outline">
-                        <input type="text" name="group" for="group" id="form3Example2" class="form-control" />
+                        <input
+                          type="text"
+                          name="group"
+                          for="group"
+                          id="form3Example2"
+                          class="form-control"
+                        />
                         <label class="form-label">Group</label>
                       </div>
                     </div>
@@ -120,13 +158,14 @@
                   <div class="form-outline mb-4">
                     <input
                       type="email"
-                      id="form3Example3"
+                      id="this_email"
                       class="form-control"
                       name="email"
                       for="email"
                     />
                     <label class="form-label" for="form3Example3"
-                      >Email address</label>
+                      >Email address</label
+                    >
                   </div>
 
                   <!-- Password input -->
@@ -186,8 +225,6 @@
   <script
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
-    ></script>
-    <script 
-      src="{% static 'check_pass.js' %}"
-    ></script>
+  ></script>
+  <script src="{% static 'check_pass.js' %}"></script>
 </html>

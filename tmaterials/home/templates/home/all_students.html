@@ -314,11 +314,11 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'transfer_gr_student' %}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'transfer_gr_student' %}" method="POST" onsubmit="return validate_email()" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" name="transfer_email" for="transfer_email">
+                <input type="email" class="form-control" id="this_email" name="transfer_email" for="transfer_email">
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Roll Number</label>

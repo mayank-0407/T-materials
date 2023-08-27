@@ -84,19 +84,19 @@
                 <form
                   action=""
                   method="POST"
-                  onsubmit="return validate_password_letters()"
+                  onsubmit="return validate_passwaord_letters()"
                   enctype="multipart/form-data"
                 >
-                <h5
-                  style="color: red; font-size: 16px"
-                  id="passcheckerror"
-                ></h5>
+                  <h5
+                    style="color: red; font-size: 16px"
+                    id="passcheckerror"
+                  ></h5>
                   {% csrf_token %}
                   <!-- Email input -->
                   <div class="form-outline mb-4">
                     <input
                       type="email"
-                      id="form3Example3"
+                      id="this_email"
                       class="form-control"
                       name="email"
                       for="email"
