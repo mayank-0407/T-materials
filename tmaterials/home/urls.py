@@ -3,11 +3,13 @@ from django.urls import include
 from . import views
 
 urlpatterns = [
+    path('',views.home,name="home"),
     path('admin/',views.redirect_admin,name="redirect_admin"),
     path('temp/',views.temp,name="view_temp"),
-    path('',views.home,name="home"),
     path('logout/',views.request_logout,name="request_logout"),
     path('dashboard/',views.dashboard,name="dashboard"),
+    path('dashboard/profile/',views.edit_profilepage,name="edit_profilepage"),
+    path('dashboard/profile/change/pass',views.change_profile_pass,name="change_profile_pass"),
     path('dashboard/view/students/',views.view_all_students,name="view_all_students"),
     path('dashboard/add/students/',views.add_student,name="add_student"),
     path('dashboard/upload/students/',views.student_upload,name="student_upload"),

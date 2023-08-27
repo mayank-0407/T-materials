@@ -79,7 +79,6 @@
               <i class="fas fa-person-dots-from-line fa-fw me-3"></i
               ><span> Students </span>
               </a>
-            <span class="align-text-bottom mt-3">Made By Mayank Aggarwal</span>
           </div>
         </div>
       </nav>
@@ -164,12 +163,12 @@
                 class="dropdown-menu dropdown-menu-end mt-2"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <li>
-                  <a class="dropdown-item" href="#">Change Password</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Logout</a>
-                </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'edit_profilepage' %}">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'request_logout' %}">Logout</a>
+              </li>
               </ul>
             </li>
           </ul>

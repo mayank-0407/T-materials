@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Evaluation</title>
+    <title>Edit Profile</title>
     <link rel="icon" href="{% static 'logo.png' %}" type="image/icon type" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -64,7 +64,7 @@
             </a>
             <a
               href="{% url 'view_all_evaluations' %}"
-              class="list-group-item list-group-item-action py-3 ripple active"
+              class="list-group-item list-group-item-action py-3 ripple"
               aria-current="true"
             >
               <i class="fas fa-star-half fa-fw me-3"></i
@@ -163,14 +163,10 @@
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <a class="dropdown-item" href="{% url 'edit_profilepage' %}"
-                    >Profile</a
-                  >
+                  <a class="dropdown-item" href="{% url 'edit_profilepage' %}">Profile</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'request_logout' %}"
-                    >Logout</a
-                  >
+                  <a class="dropdown-item" href="{% url 'request_logout' %}">Logout</a>
                 </li>
               </ul>
             </li>
@@ -215,90 +211,108 @@
         {% endfor %} {% endif %}
         <!-- end of message error -->
       </div>
-
-      <!-- all notification -->
-      <div style="margin-top: 38px" class="container col-6 align-items-center">
-        <form
-          action="{% url 'update_edit_evaluations' %}"
-          method="POST"
-          enctype="multipart/form-data"
-        >
-          {% csrf_token %}
-          <!-- Text input -->
-          <label class="form-label" for="form6Example3"
-            >Evaluation Subject</label
-          >
-          <input
-            type="text"
-            id="form6Example3"
-            name="sub_id"
-            for="sub_id"
-            value="{{ this_evaluations.pk }}"
-            class="form-control"
-            hidden
-          />
-
-          <div class="form-outline mb-4">
-            <input
-              type="text"
-              id="form6Example3"
-              name="sub_name"
-              for="sub_name"
-              value="{{ this_evaluations.sub_name }}"
-              class="form-control"
-            />
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-6 mb-4 mb-lg-0">
+              <div class="card mb-3" style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-4 text-center text-black"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                    <h5>{{ full_name }}</h5>
+                    {% if main_user.is_cr %}
+                      <p>G.R.</p>
+                    {% elif temp_user.is_staff %}
+                      <p>Staff</p>
+                    {% else %}
+                      <p>Student</p>
+                    {% endif %}
+                    <i class="far fa-edit mb-5"></i>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-4">
+                      <h6>Information</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Email</h6>
+                          <p class="text-muted">{{ main_user.user.email }}</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <h6>Roll No</h6>
+                          <p class="text-muted">{{ main_user.roll_no }}</p>
+                        </div>
+                      </div>
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Group</h6>
+                          <p class="text-muted">{{ main_user.my_session.group }}</p>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change_pass_modal">
+                        Change Password
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <!-- Text input -->
-          <label class="form-label" for="form6Example4">Evaluation Type</label>
-          <div class="form-outline mb-4">
-            <input
-              type="text"
-              id="form6Example4"
-              name="eval_type"
-              for="eval_type"
-              value="{{ this_evaluations.eval_type }}"
-              class="form-control"
-            />
-          </div>
-
-          <!-- Email input -->
-          <label class="form-label" for="form6Example5">Evaluation Room</label>
-          <div class="form-outline mb-4">
-            <input
-              type="text"
-              id="form6Example5"
-              name="eval_room"
-              for="eval_room"
-              value="{{ this_evaluations.eval_room }}"
-              class="form-control"
-            />
-          </div>
-
-          <!-- Message input -->
-          <label class="form-label" for="form6Example7"
-            >Evaluation information</label
-          >
-          <div class="form-outline mb-4">
-            <textarea
-              class="form-control"
-              name="eval_information"
-              for="eval_information"
-              value="{{ this_evaluations.eval_information }}"
-              id="form6Example7"
-              rows="4"
-            ></textarea>
-          </div>
-
-          <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-block mb-4">
-            Confirm Edit
-          </button>
-        </form>
-      </div>
+        </div>
     </main>
     <!--Main layout-->
   </body>
+  <!-- change pass modal -->
+  <div class="modal fade" id="change_pass_modal" tabindex="-1" aria-labelledby="change_pass_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'change_profile_pass' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-3">
+              <label for="inputEmail3" class="col-sm-5 col-form-label"
+                >Old Password</label
+              >
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="inputEmail3" for="change_pass_old" name="change_pass_old" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="inputEmail3" class="col-sm-5 col-form-label"
+              >New Password</label
+              >
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="inputEmail3" for="change_pass_new" name="change_pass_new" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="inputEmail3" class="col-sm-5 col-form-label"
+              >Confirm New Password</label
+              >
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="inputEmail3" for="change_pass_new1" name="change_pass_new1" />
+              </div>
+            </div>
+            <div class="modal-footer">
+            <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            >
+            Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MDB -->
   <script
     type="text/javascript"

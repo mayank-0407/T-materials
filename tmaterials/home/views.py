@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 
 def temp(request):
-    return render(request,"home/temp.html",context={})
+    return render(request,"home/edit_profile.html",context={})
 
 def redirect_admin(request):
     url="http://127.0.0.1:8000/admin"
@@ -44,11 +44,11 @@ def home(request):
             tempuser=User.objects.get(email=email).username                  
             user=authenticate(request,username=tempuser,password=password)
         except:
-            messages.error(request, 'Incorrect Password !')
+            messages.error(request, 'Error Wile Authentication !')
             return redirect('home')
                   
         if user == None: 
-            messages.error(request, 'No User Exists !')
+            messages.error(request, 'Incorrect Password !')
             return redirect('home')
         
         if user.is_active:
@@ -469,3 +469,55 @@ def student_uploader(request,rfile):
     else:
         messages.success(request, 'Success - Students Added Successfully')
         return redirect('dashboard')
+    
+def edit_profilepage(request):
+    if request.user.is_authenticated:
+        try:
+            temp_user=User.objects.get(username=request.user.username)
+            main_user=Main_user.objects.get(user=temp_user)
+        except:
+            print('Not able t find data in edit profile page')
+        full_name=temp_user.first_name + ' ' + temp_user.last_name
+
+        all_notifications=Notification.objects.filter(my_session=main_user.my_session).all()
+        all_notifications_count=Notification.objects.filter(my_session=main_user.my_session).all().count()
+        return render(request,"home/edit_profile.html",context={'full_name':full_name,'temp_user':temp_user,'main_user':main_user,'all_notifications':all_notifications,'all_notifications_count':all_notifications_count})
+    return redirect('home')
+
+def change_profile_pass(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            old_pass = request.POST.get('change_pass_old')
+            pass1 = request.POST.get('change_pass_new')
+            pass2 = request.POST.get('change_pass_new1')
+
+            print(request.user.email)     
+            email = request.user.email   
+            try:
+                tempuser=User.objects.get(email=email).username                  
+                user=authenticate(request,username=tempuser,password=old_pass)
+            except:
+                messages.error(request, 'Incorrect Password !')
+                return redirect('edit_profilepage')
+            if not user :
+                messages.error(request, 'Incorrect Password !')
+                return redirect('edit_profilepage')
+
+                    
+            if not pass1 == pass2 :
+                messages.error(request, 'New Passwords Does not match !')
+                return redirect('edit_profilepage')
+            
+            try:
+                temp_user=User.objects.get(email=email)
+                temp_user.set_password(pass1)
+                temp_user.save()
+            except:
+                messages.error(request, 'Error While Settings the New password !')
+                return redirect('edit_profilepage')
+            request.logout()
+            messages.success(request, 'Password Changed Successfully !')
+            return redirect('home')
+
+        return redirect('dashboard')
+    return redirect('home')
