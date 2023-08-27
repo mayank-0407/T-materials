@@ -1,4 +1,4 @@
-Welcome to Web-I, your one-stop destination for discovering exciting internship opportunities! Whether you are a student looking to gain real-world experience or a company seeking fresh talent, Web-I is the perfect platform to bridge the gap between aspirations and opportunities.
+Welcome to T-Materials, your one-stop solution for solving the problem of sending every slide on WhatsApp ,  managing them at one place. Whether you are GR or Student this website makes your work very easy , T-Materials is the perfect platform to bridge the gap between Students and GR/teacher.
 
 # Overview:
 Web-I is an innovative web application designed to streamline the internship recruitment process. With a user-friendly interface and powerful search functionality, it connects students, graduates, and young professionals with a diverse range of internships across various industries.
